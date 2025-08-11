@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './ContactForm.css';
 import { motion } from 'framer-motion';
+import { submitMessage } from "./api";
 
 function App() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const themeClass = darkMode ? 'dark' : 'light';
 
@@ -19,19 +21,24 @@ function App() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (sending) return;            // prevent double-clicks
+    setSending(true);
     try {
-      await fetch('http://localhost:3000/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      await submitMessage(formData);
 
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setSubmitted(false), 4000);
     } catch (err) {
       console.error(err);
-      alert('Something went wrong. Please try again.');
+      // If our backend returns 409 (duplicate within 30s), submitMessage throws with status in message
+      if (String(err.message).includes("409") || String(err.message).toLowerCase().includes("duplicate")) {
+        alert("Please try again after a few seconds.");
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } finally {
+      setSending(false);
     }
   }
 
@@ -55,17 +62,17 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-         <div className="theme-toggle">
-  <label className="theme-switch">
-    <input
-      type="checkbox"
-      checked={darkMode}
-      onChange={() => setDarkMode(!darkMode)}
-    />
-    <span className="slider"></span>
-    <span className="switch-label">Dark Mode</span>
-  </label>
-</div>
+            <div className="theme-toggle">
+              <label className="theme-switch">
+                <input
+                  type="checkbox"
+                  checked={darkMode}
+                  onChange={() => setDarkMode(!darkMode)}
+                />
+                <span className="slider"></span>
+                <span className="switch-label">Dark Mode</span>
+              </label>
+            </div>
 
             <h1>Contact Form</h1>
             <form onSubmit={handleSubmit}>
@@ -77,6 +84,7 @@ function App() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  disabled={sending}   // lock inputs while sending
                 />
               </div>
 
@@ -88,6 +96,7 @@ function App() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={sending}
                 />
               </div>
 
@@ -98,16 +107,18 @@ function App() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  disabled={sending}
                 />
               </div>
 
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                disabled={sending}
+                whileHover={!sending ? { scale: 1.05 } : {}}
+                whileTap={!sending ? { scale: 0.95 } : {}}
                 transition={{ duration: 0.2 }}
               >
-                Send Message
+                {sending ? "Sending..." : "Send Message"}
               </motion.button>
             </form>
           </motion.div>

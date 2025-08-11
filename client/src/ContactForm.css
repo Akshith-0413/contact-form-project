@@ -132,6 +132,20 @@ button:hover {
   color: #333;
 }
 
+/* ✅ Success tick animation */
+.confirmation-message h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: popIn 0.5s ease forwards;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
 /* Responsive for Mobile */
 @media screen and (max-width: 768px) {
   .main-container {
@@ -300,4 +314,23 @@ button:hover {
 .dark .switch-label {
   color: #f5f5f5;
 }
-/* 🔥 Removed the old form::before + @keyframes spin mask approach */
+
+/* --- tiny loader --- */
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
