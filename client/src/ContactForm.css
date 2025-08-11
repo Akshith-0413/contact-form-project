@@ -1,0 +1,303 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #e0f7fa, #c8e6c9, #ffecb3, #d1c4e9);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ✨ UPDATED FORM BLOCK WITH ANIMATED GLOW */
+form {
+  /* kept your layout values */
+  padding: 40px;
+  max-width: 500px;
+  margin: 80px auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+
+  /* glow border via dual backgrounds */
+  border: 2px solid transparent;
+  background:
+    /* inner fill */
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    /* animated ring */
+    conic-gradient(from var(--angle, 0deg),
+      #7c3aed, #4f46e5, #22d3ee, #4f46e5, #7c3aed) border-box;
+
+  animation: spin-angle 6s linear infinite;
+}
+
+@keyframes spin-angle {
+  to { --angle: 360deg; }
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4338ca;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 40px;
+  gap: 40px;
+}
+
+.form-container {
+  flex: 1;
+  max-width: 500px;
+}
+
+.image-container {
+  flex: 1;
+  max-width: 500px;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.confirmation-message {
+  background: white;
+  padding: 50px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  max-width: 500px;
+  margin: 100px auto;
+}
+
+.confirmation-message h2 {
+  font-size: 28px;
+  color: #4caf50; /* green checkmark color */
+  margin-bottom: 10px;
+}
+
+.confirmation-message p {
+  color: #333;
+}
+
+/* Responsive for Mobile */
+@media screen and (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    padding: 20px;
+    height: auto;
+  }
+
+  .form-container,
+  .image-container {
+    max-width: 100%;
+  }
+
+  form {
+    padding: 30px;
+    margin: 20px auto;
+  }
+
+  .confirmation-message {
+    margin: 60px auto;
+    padding: 30px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  input, textarea {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .image-container img {
+    max-width: 90%;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+/* Dark Mode Support */
+.main-container.dark {
+  background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+  color: #f5f5f5;
+}
+
+.dark form,
+.dark .confirmation-message {
+  background: #2d2d44;
+  color: #f5f5f5;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ✨ Dark-mode glow palette for the border */
+.dark form {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#2d2d44, #2d2d44) padding-box,
+    conic-gradient(from var(--angle, 0deg),
+      #8bc34a, #7c3aed, #22d3ee, #7c3aed, #8bc34a) border-box;
+}
+
+.dark input,
+.dark textarea {
+  background: #444;
+  color: #fff;
+  border-color: #666;
+}
+
+.dark button {
+  background-color: #7c3aed;
+}
+
+.dark button:hover {
+  background-color: #6d28d9;
+}
+
+.theme-toggle {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: -10px;
+}
+
+.theme-toggle label {
+  font-weight: 600;
+  font-size: 14px;
+  background: #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle label:hover {
+  background: #d5d5d5;
+}
+
+.theme-toggle input {
+  accent-color: #4f46e5;
+  cursor: pointer;
+}
+
+/* 🌙 Modern Pill Switch with Label */
+.theme-toggle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.theme-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+.slider {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  background-color: #d1d5db;
+  border-radius: 999px;
+  transition: background-color 0.3s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+/* Checked state */
+.theme-switch input:checked + .slider {
+  background-color: #4f46e5;
+}
+
+.theme-switch input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+.switch-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark .switch-label {
+  color: #f5f5f5;
+}
+/* 🔥 Removed the old form::before + @keyframes spin mask approach */
