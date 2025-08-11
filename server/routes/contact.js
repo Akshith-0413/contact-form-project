@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
       createdAt: doc.createdAt
     });
 
-    // 📧 Send email notification (non-blocking for user experience)
+    // 📧 Send email notification (log Resend response)
     (async () => {
       try {
         const to = process.env.TO_EMAIL;
@@ -49,10 +49,10 @@ router.post('/', async (req, res) => {
           return;
         }
 
-        await resend.emails.send({
+        const result = await resend.emails.send({
           from,
           to,
-          reply_to: email, // so you can hit "Reply" to contact the sender
+          reply_to: email, // lets you hit "Reply" to contact the sender
           subject: `New contact message from ${name}`,
           html: `
             <div style="font-family:system-ui,Segoe UI,Arial,sans-serif;line-height:1.6">
@@ -76,9 +76,9 @@ Message ID: ${doc._id}
 `
         });
 
-        console.log('📧 Email notification sent via Resend');
+        console.log('📧 Resend response:', result); // <-- will show id or error details
       } catch (mailErr) {
-        console.error('❌ Failed to send email via Resend:', mailErr);
+        console.error('❌ Resend send() error:', mailErr);
       }
     })();
 
